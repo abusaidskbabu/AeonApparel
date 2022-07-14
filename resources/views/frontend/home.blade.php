@@ -42,6 +42,7 @@
 		</div>
 		<!-- eof flexslider -->
 	</section>
+
 	<section id="about" class="ls section_padding_bottom_150">
 		<div class="container">
 			<div class="row flex-wrap v-center">
@@ -61,6 +62,63 @@
 			</div>
 		</div>
 	</section>
+
+
+
+
+	<section id="about" class="ls pt-5 pb-5" style="background-color: black;">
+		<div class="container">
+			<div class="center">
+				<div class="row">
+					<a href="https://dribbble.com/shots/2252572-Day-083-Social-Connect" class="col-lg-3">
+						<div class="container-box container--facebook">
+							<div class="box box--left box--front">
+								<i class="ion fa fa-facebook"></i>
+								<span class="count">
+									13 K				
+								</span>
+							</div>		
+							<span class="follow follow--left">
+								Like
+							</span>
+						</div>
+					</a>
+
+					<a href="https://dribbble.com/shots/2252572-Day-083-Social-Connect" class="col-lg-3">
+						<div class="container-box container--twitter">
+							<div class="box box--middle">
+								<i class="ion fa fa-twitter"></i>	
+								<span class="count">
+									10.5 K				
+								</span>
+							</div>
+							<span class="follow follow--middle">
+								Follow
+							</span>
+						</div>
+					</a>
+
+
+					<a href="https://dribbble.com/shots/2252572-Day-083-Social-Connect" class="col-lg-3">
+						<div class="container-box container--instagram">
+							<div class="box box--right">
+								<i class="ion fa fa-instagram"></i>
+								<span class="count">
+									11 K
+								</span>
+							</div>
+							<span class="follow follow--right">
+								Follow
+							</span>
+						</div>
+					</a>
+				</div>
+			</div>
+		</div>
+	</section>
+
+
+
 	<section id="blog" class="ls p-5 section_padding_bottom_150" style="background-color: #EDECEA;">
 		<div class="row">
 			<div class="col-md-12">
@@ -85,6 +143,7 @@
 			</div>
 		</div>
 	</section>
+
 	<section id="contact-form" class="pt-4 section_padding_bottom_150" style="background-color: black;">
 		<div class="container">
 			<div class="row flex-wrap v-center">
@@ -149,6 +208,8 @@
 			</div>
 		</div>
 	</section>
+
+
 	<section id="contact-form" class="ls  pt-4 pb-4" style="background-color: #EDECEA;">
 		<div class="container">
 			<div class="row flex-wrap v-center">
