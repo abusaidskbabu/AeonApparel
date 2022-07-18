@@ -1,5 +1,7 @@
 @extends('frontend.layout.master')
-
+@php 
+    $wss = DB::table('website_setting')->orderBy('id','DESC')->first();
+@endphp
 @section('content')
     <section class="page_breadcrumbs cs main_color2 gradient lighten_gradient section_padding_top_40 section_padding_bottom_40 table_section table_section_md" style="background-image: linear-gradient(131deg,#F8AE54 37%,#414E57 61%)!important;">
         <div class="container">
@@ -55,14 +57,22 @@
                             <div class="media">
                                 <div class="media-left"> <i class="rt-icon2-shop highlight fontsize_18"></i> </div>
                                 <div class="media-body">
-                                    <h6 class="media-heading grey">Postal Address:</h6> House#297, Avenue#03, Road#04, Mirpur DOHS , Dhaka - 1216, Bangladesh </div>
+                                    <h6 class="media-heading grey">Postal Address:</h6> {{ $wss->address ?? ''}} </div>
                             </div>
                         </li>
                         <li>
                             <div class="media">
                                 <div class="media-left"> <i class="rt-icon2-phone5 highlight fontsize_18"></i> </div>
                                 <div class="media-body">
-                                    <h6 class="media-heading grey">Phone:</h6> +880 1717-804604 </div>
+                                    <h6 class="media-heading grey">Phone:</h6> 
+                                    @php
+                                        $all_phone = explode(",",$wss->phone)
+                                    @endphp
+
+                                    @foreach($all_phone as $key => $value) 
+                                        <a href="tel:{{ $value }}"> {{ $value }}</a> 
+                                    @endforeach 
+                                </div>
                             </div>
                         </li>
                         <li>
@@ -70,8 +80,13 @@
                                 <div class="media-left"> <i class="rt-icon2-mail highlight fontsize_18"></i> </div>
                                 <div class="media-body greylinks">
                                     <h6 class="media-heading grey">Email:</h6> 
-                                    <a href="mailto:elegrandbd@gmail.com"><span >elegrandbd@gmail.com</span></a> 
-                                    <a href="mailto:info@elegrandbd.com"><span >info@elegrandbd.com</span></a> 
+                                    @php
+                                        $all_email = explode(",",$wss->email)
+                                    @endphp
+
+                                    @foreach($all_email as $key => $value) 
+                                        <a href="mailto:{{ $value }}"><span>{{ $value }}</span></a> 
+                                    @endforeach
                                 </div>
                             </div>
                         </li>

@@ -1,4 +1,4 @@
-<header class="page_header header_black header_v1 toggler_xxs_right" style="background-color: black;">
+<header class="page_header header_black header_v1 toggler_xxs_right" style="background-color: #fffbfb;">
 				<div class="container-fluid">
 					<div class="row">
 						<div class="col-sm-12 display-flex v-center">
@@ -14,9 +14,11 @@
 										<li class="active"> <a href="{{ route('home')}}">Home</a></li>
 										<li> <a href="#">About</a>
 											<ul>
-												<li> <a href="{{ url('/about-us')}}">About Us</a> </li>
-												<li> <a href="{{ url('/our-partner')}}">Our Partners</a> </li>
-												<li> <a href="{{ url('/our-values') }}">Our Values</a> </li>
+												<li> <a href="{{ url('/about-us')}}">Company Details</a> </li>
+												<li> <a href="{{ url('/our-partner')}}">Our Concerns</a> </li>
+												<li> <a href="{{ url('/our-clients')}}">Our Clients</a> </li>
+												<li> <a href="{{ url('/our-factory') }}">Our Factory</a> </li>
+												<li> <a href="{{ url('/our-showroom') }}">Our Showroom</a> </li>
 											</ul>
 										</li>
 										<li> <a href="#">Services</a>

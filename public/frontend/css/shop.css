@@ -162,6 +162,7 @@ input[disabled] {
 .product .thumbnails a,
 .product .item-media {
 	display: block;
+	height: 210px;
 }
 
 .products {

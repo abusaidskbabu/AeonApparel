@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Hash;
 use App\team_member;
 use App\Service;
 use App\Client;
+use App\Factory;
 use App\PageCms;
 use App\product_category;
 use App\product_division;
@@ -52,6 +53,7 @@ class DashboardController extends Controller
                 'required' => 'The :attribute field is required.',
             ]
         );
+
         if($request->hasFile('file')){
             $image = $request->file('file');
             $filename = time().uniqid().$image->getClientOriginalName();
@@ -66,8 +68,6 @@ class DashboardController extends Controller
                 'image' => $filename
             ]);
         }
-
-
         return redirect()->route('sliders.index')->with('success', 'Slider Has Been Created !');
 
     }
@@ -376,6 +376,9 @@ class DashboardController extends Controller
         $data->delete();
         return redirect('/dashboard/servicesinformation')->with('success', 'Service has been Deleted !');
     }
+
+    // clients
+
     public function ourclients_index()
     {
         $client = Client::all();
@@ -500,6 +503,136 @@ class DashboardController extends Controller
         return redirect('/dashboard/ourclients')->with('success', 'Client Has Been Deleted !');
     }
 
+
+    // factory
+    public function factory_index()
+    {
+        $client = Factory::all();
+        return view('backend.factory.index')->with('title', 'Our Factory')->with('data', $client);
+    }
+    public function factory_create()
+    {
+        return view('backend.factory.create')->with('title', 'Create Factory');
+    }
+    public function factory_insert(Request $request)
+    {
+        //return $request;
+        $this->validate($request,
+        [
+            'title' => 'required',
+            'file' => 'required',
+
+        ],
+            $messages = [
+                'required' => 'The :attribute field is required.',
+            ]
+        );
+       
+
+        $image = $request->file('file');
+        $filename = time().uniqid().$image->getClientOriginalName();
+        $image->move('uploads', $filename);
+
+        $worker = '';
+        $galleries = '';
+        if ($request->hasFile('workers')) {
+            foreach ($request->file('workers') as $file) {
+                $workers = $file->getClientOriginalName();
+                $file->move('backend/factories/', $workers);
+                $worker .=$workers.',';
+            }
+        }
+
+        if ($request->hasFile('gallery')) {
+            foreach ($request->file('gallery') as $file) {
+                $gallery = $file->getClientOriginalName();
+                $file->move('backend/factories/', $gallery);
+                $galleries .= $gallery.',';
+            }
+        }
+
+        $factory = new Factory();
+        $factory->title = $request->title;
+        $factory->location= $request->location;
+        $factory->machineries = $request->machineries;
+        $factory->banner = 'uploads/'.$filename;
+        $factory->workers = $worker;
+        $factory->gallery = $galleries;
+        $factory->save();
+
+        return redirect('/dashboard/factory')->with('success', 'Factory Has Been Created !');
+    }
+    public function factory_view($id)
+    {
+        $client = Factory::findOrFail($id);
+        return view('backend.factory.view')->with('title', 'View Factory')->with('data', $client);
+    }
+    public function factory_edit($id)
+    {
+        $data = Factory::findOrFail($id);
+        //return $member;
+        return view('backend.factory.edit')->with('title', 'Edit Factory')->with('data', $data);
+    }
+    public function factory_update(Request $request, $id)
+    {
+        //return $request;
+        $this->validate($request,
+        [
+            'name' => 'required',
+            'file' => 'max:1096',
+            'state' => 'required|not_in:null'
+
+        ],
+            $messages = [
+                'required' => 'The :attribute field is required.',
+            ]
+        );
+        $data = Factory::findOrFail($id);
+        //return $member;
+        if($request->file == null){
+            $data->name = $request->name;
+            $data->image = $request->prev_img;
+            $data->status = $request->state;
+            $data->save();
+        }
+        else{
+            if($request->hasFile('file')){
+                $image = $request->file('file');
+                $filename = time().uniqid().$image->getClientOriginalName();
+                $image->move('uploads', $filename);
+
+                $data->name = $request->name;
+                $data->image = 'uploads/'.$filename;
+                $data->status = $request->state;
+                $data->save();
+            }
+        }
+        return redirect('/dashboard/factory')->with('success', 'Factory Has Been Edited !');
+    }
+    public function factory_delete($id)
+    {
+        $data = Factory::findOrFail($id);
+        return view('backend.factory.delete')->with('title', 'Delete Factory')->with('data', $data);
+    }
+    public function factory_remove($id)
+    {
+        $data = Factory::findOrFail($id);
+        if($data->image != null){
+            File::delete($data->image);
+        }
+
+        $client_files = ClientFile::where('client_id', $id);
+
+        if ($client_files != null) {
+            foreach ($client_files as $file) {
+                File::delete($file->file);
+            }
+        }
+
+
+        $data->delete();
+        return redirect('/dashboard/factory')->with('success', 'Factory Has Been Deleted !');
+    }
 
 
     public function our_partners_index()
@@ -1231,7 +1364,6 @@ class DashboardController extends Controller
             $image = $request->file('file');
             $filename = time().uniqid().$image->getClientOriginalName();
             $image->move('uploads', $filename);
-
             $insert = DB::TABLE('website_setting')->where('id',$data->id)->update([
                 'name' => $request->name,
                 'logo' => 'uploads/'.$filename,
@@ -1243,7 +1375,20 @@ class DashboardController extends Controller
                 'twiter' => $request->twiter,
                 'instagram' => $request->instagram,
             ]);
+        }else{
+            $insert = DB::TABLE('website_setting')->where('id',$data->id)->update([
+                'name' => $request->name,
+                'phone' => $request->phone,
+                'email' => $request->email,
+                'address' => $request->address,
+                'facebook' => $request->facebook,
+                'linkedin' => $request->linkedin,
+                'twiter' => $request->twiter,
+                'instagram' => $request->instagram,
+            ]);
         }
+        
+        
 
         return redirect('/dashboard/website/setting')->with('success', 'Website Setting Changed !');
     }

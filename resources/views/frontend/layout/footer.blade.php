@@ -12,7 +12,7 @@
 							</div>
 						</li>
 						@php
-							$all_email = explode(".",$wss->email)
+							$all_email = explode(",",$wss->email)
 						@endphp
 						<li>
 							<div class="media small-media">
@@ -69,13 +69,13 @@
 <section class="page_copyright section_padding_top_10 section_padding_bottom_10" style="background-color: black;">
 	<div class="container-fluid">
 		<div class="row">
-			<div class="col-xs-6 text-left" style="color: #b17f31; font-size: 10px;"> &copy; <?php echo date('Y'); ?>  All Rights Reserved | Developed By <a href="">VMSL</a>  </div>
+			<div class="col-xs-6 text-left" style="color: #fc0000; font-size: 10px;"> &copy; <?php echo date('Y'); ?>  All Rights Reserved | Developed By <a href="">VMSL</a>  </div>
 			<div class="col-xs-6 text-right">
-				<div class="page_social" style="color: #b17f31;"> 
-					<a class="social-icon socicon-facebook dark-icon" style="color: #b17f31;" target="_blank" href="{{ $wss->facebook ?? '#' }}" title="Facebook"></a> 
-					<a class="social-icon socicon-linkedin dark-icon" style="color: #b17f31;" target="_blank" href="{{ $wss->linkedin ?? '#' }}" title="Linkedin"></a>							
-					<a class="social-icon socicon-twitter dark-icon" style="color: #b17f31;" target="_blank" href="{{ $wss->twiter ?? '#' }}" title="Twitter"></a> 
-					<a class="social-icon socicon-instagram dark-icon" style="color: #b17f31;" target="_blank" href="{{ $wss->instagram ?? '#' }}" title="Instagram"></a> 
+				<div class="page_social" style="color: #fc0000;"> 
+					<a class="social-icon socicon-facebook dark-icon" style="color: #fc0000;" target="_blank" href="{{ $wss->facebook ?? '#' }}" title="Facebook"></a> 
+					<a class="social-icon socicon-linkedin dark-icon" style="color: #fc0000;" target="_blank" href="{{ $wss->linkedin ?? '#' }}" title="Linkedin"></a>							
+					<a class="social-icon socicon-twitter dark-icon" style="color: #fc0000;" target="_blank" href="{{ $wss->twiter ?? '#' }}" title="Twitter"></a> 
+					<a class="social-icon socicon-instagram dark-icon" style="color: #fc0000;" target="_blank" href="{{ $wss->instagram ?? '#' }}" title="Instagram"></a> 
 				</div>
 			</div>
 		</div>

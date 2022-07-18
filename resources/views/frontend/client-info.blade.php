@@ -1,57 +1,36 @@
-@extends('frontend.base')
-@section('css')
-    <link href="{{asset('frontend/css/about.css')}}" rel="stylesheet">
-    <link href="{{asset('frontend/css/error_track.css')}}" rel="stylesheet">
-@endsection
-@section('body')
-    <div id="page">
-        @include('frontend.nav')
-        <main class="text-black">
-            @if (empty($client))
-                <div id="error_page">
-                    <div class="container">
-                        <div class="row justify-content-center text-center">
-                            <div class="col-xl-7 col-lg-9">
-                                <img src="{{asset('frontend/img/404.svg')}}" alt="" class="img-fluid" width="400" height="212">
-                                <p>The page you're looking is not founded!</p>
+@extends('frontend.layout.master')
+
+@section('content')
+    <section class="page_breadcrumbs cs main_color2 gradient lighten_gradient section_padding_top_40 section_padding_bottom_40 table_section table_section_md" style="background-image: linear-gradient(131deg,#F8AE54 37%,#414E57 61%)!important;">
+        <div class="container">
+            <div class="row">
+                <ol class="breadcrumb greylinks">
+                    <li> 
+                        <a href="{{ route('home') }}">
+                        Home
+                    </a> 
+                    </li>
+                    <li> <a href="#">Clients</a> </li>
+                </ol>            
+            </div>
+        </div>
+    </section>
+
+    <section class="ls pt-4 section_padding_bottom_150">
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="isotope_container isotope row masonry-layout images-grid columns_margin_bottom_20">
+                        @foreach($data as $row)
+                            <div class="isotope-item col-xs-4 col-sm-3"> 
+                                <a href="#" class="with_shadow">
+                                    <img src="{{asset($row->image)}}" alt="">
+                                </a> 
                             </div>
-                        </div>
-                        <!-- /row -->
+                        @endforeach
                     </div>
-                    <!-- /container -->
                 </div>
-            @else
-                <div class="container-fluid">
-                    <div class="row row-cols-lg-1">
-                        <img src="{{asset('frontend/img/partners.jpg')}}" height="800px" class="img-fluid" alt="">
-                    </div>
-
-                </div>
-
-                <div class="container mt-10">
-
-                    <h1>{{ $client->name }}</h1>
-                    <h2>Documents / Files</h2>
-
-                    <div class="row mt-10">
-
-                    @foreach($client_files as $file)
-                        <div class="col-md-4 col-lg-4 col-sm-4">
-                            <div class="box_view text-center mb-5">
-                                <a class="btn_2 text-black" href="{{ asset($file->file) }}">View</a>
-                            </div>
-
-                        </div>
-                    @endforeach
-
-                    </div>
-
-                </div>
-                <!-- /container -->
-            @endif
-        </main>
-        <!--/main-->
-        @include('frontend.footer')
-    </div>
-    <!-- page -->
+            </div>
+        </div>
+    </section>
 @endsection

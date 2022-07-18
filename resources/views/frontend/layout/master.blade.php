@@ -84,9 +84,9 @@
 			autoplay: true,
 		    autoplayTimeout:7000,
 		    smartSpeed: 800,
-		    nav:false,
-		    dots: true,
-			slideBy: 2,
+		    nav:true,
+		    dots: false,
+			slideBy: 1,
 		    responsive:{
 		        0:{
 		            items:1

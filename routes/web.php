@@ -20,6 +20,7 @@ Route::get('/search', 'HomeController@search')->name('search');
 Route::get('/about-us', 'HomeController@about_us');
 Route::get('/our-values', 'HomeController@our_values');
 Route::get('/our-partner', 'HomeController@our_partners');
+Route::get('/our-clients', 'HomeController@our_clients');
 Route::get('/client-info/{id}', 'HomeController@client_info')->name('client-info');
 Route::get('/partner-info/{id}', 'HomeController@partner_info')->name('partner-info');
 Route::get('/contact-us', 'HomeController@contact_us');
@@ -101,6 +102,19 @@ Route::group(['middleware'=>['checkToAccess']], function() {
     Route::post('/dashboard/ourclients/edit/{id}', 'DashboardController@ourclients_update');
     Route::get('/dashboard/ourclients/delete/{id}', 'DashboardController@ourclients_delete')->name('ourclients.delete');
     Route::post('/dashboard/ourclients/delete/{id}', 'DashboardController@ourclients_remove');
+
+
+    // factory start 
+    Route::get('/dashboard/factory', 'DashboardController@factory_index');
+    Route::get('/dashboard/factory/create', 'DashboardController@factory_create');
+    Route::post('/dashboard/factory/create', 'DashboardController@factory_insert');
+    Route::get('/dashboard/factory/view/{id}', 'DashboardController@factory_view')->name('factory.view');
+    Route::get('/dashboard/factory/edit/{id}', 'DashboardController@factory_edit')->name('factory.edit');
+    Route::post('/dashboard/factory/edit/{id}', 'DashboardController@factory_update');
+    Route::get('/dashboard/factory/delete/{id}', 'DashboardController@factory_delete')->name('factory.delete');
+    Route::post('/dashboard/factory/delete/{id}', 'DashboardController@factory_remove');
+    // factory end 
+
 
     Route::get('/dashboard/our-partners', 'DashboardController@our_partners_index');
     Route::get('/dashboard/our-partners/create', 'DashboardController@our_partners_create');

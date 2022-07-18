@@ -187,6 +187,27 @@ class HomeController extends Controller
             ->with('partners', $partners);
     }
 
+    public function our_clients()
+    {
+        $service = DB::table('services')
+            ->where('status', 1)
+            ->get();
+
+        $division = product_division::all();
+        $category = product_category::all();;
+        $gender = product_gender::all();
+
+        $clients = Client::all();
+
+        $data = Client::all();
+        return view('frontend.client-info')->with('title', 'Our Partners')
+            ->with('division',$division)
+            ->with('category',$category)
+            ->with('gender',$gender)
+            ->with('data', $data)->with('service', $service)
+            ->with('clients', $clients);
+    }
+
     public function our_values()
     {
         $service = DB::table('services')

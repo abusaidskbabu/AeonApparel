@@ -45,25 +45,25 @@
                             <div class="row mb-2">
                                 <div class="col-md-4"><strong>Heading:</strong></div>
                                 <div class="col-md-8">
-                                    <input type="text" name="heading" id="heading" class="form-control" required="" placeholder="eg: Women Textile">
+                                    <input type="text" name="heading" id="heading" class="form-control"  placeholder="eg: Women Textile">
                                 </div>
                             </div>
                             <div class="row mb-2">
                                 <div class="col-md-4"><strong>Yeay 1st:</strong></div>
                                 <div class="col-md-8">
-                                    <input type="text" name="year_1st" id="year_1st" class="form-control" required="" placeholder="eg: 2k">
+                                    <input type="text" name="year_1st" id="year_1st" class="form-control"  placeholder="eg: 2k">
                                 </div>
                             </div>
                             <div class="row mb-2">
                                 <div class="col-md-4"><strong>Year 2nd:</strong></div>
                                 <div class="col-md-8">
-                                    <input type="text" name="year_2nd" id="year_2nd" class="form-control" required="" placeholder="eg: 21">
+                                    <input type="text" name="year_2nd" id="year_2nd" class="form-control" placeholder="eg: 21">
                                 </div>
                             </div>
                             <div class="row mb-2">
                                 <div class="col-md-4"><strong>Span-text:</strong></div>
                                 <div class="col-md-8">
-                                    <input type="text" name="span_text" id="span_text" class="form-control" required="" placeholder="eg: Summer Collection">
+                                    <input type="text" name="span_text" id="span_text" class="form-control"  placeholder="eg: Summer Collection">
                                 </div>
                             </div>
                             <div class="row">
