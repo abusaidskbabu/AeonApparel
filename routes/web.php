@@ -21,6 +21,9 @@ Route::get('/about-us', 'HomeController@about_us');
 Route::get('/our-values', 'HomeController@our_values');
 Route::get('/our-partner', 'HomeController@our_partners');
 Route::get('/our-clients', 'HomeController@our_clients');
+Route::get('/our-factory', 'HomeController@our_factory');
+Route::get('/factory/{id}', 'HomeController@factory_details')->name('factory.details');
+Route::get('/our-showroom', 'HomeController@our_showroom');
 Route::get('/client-info/{id}', 'HomeController@client_info')->name('client-info');
 Route::get('/partner-info/{id}', 'HomeController@partner_info')->name('partner-info');
 Route::get('/contact-us', 'HomeController@contact_us');
@@ -113,7 +116,25 @@ Route::group(['middleware'=>['checkToAccess']], function() {
     Route::post('/dashboard/factory/edit/{id}', 'DashboardController@factory_update');
     Route::get('/dashboard/factory/delete/{id}', 'DashboardController@factory_delete')->name('factory.delete');
     Route::post('/dashboard/factory/delete/{id}', 'DashboardController@factory_remove');
+
+    Route::get('/dashboard/factory/worker/delete/{id}/{image}', 'DashboardController@factory_image_delete')->name('factory.worker.delete');
+    Route::get('/dashboard/factory/gallery/delete/{id}/{image}', 'DashboardController@factory_gallery_delete')->name('factory.gallery.delete');
     // factory end 
+
+
+    // showroom start 
+    Route::get('/dashboard/showroom', 'DashboardController@showroom_index');
+    Route::get('/dashboard/showroom/create', 'DashboardController@showroom_create');
+    Route::post('/dashboard/showroom/create', 'DashboardController@showroom_insert');
+    Route::get('/dashboard/showroom/view/{id}', 'DashboardController@showroom_view')->name('showroom.view');
+    Route::get('/dashboard/showroom/edit/{id}', 'DashboardController@showroom_edit')->name('showroom.edit');
+    Route::post('/dashboard/showroom/edit/{id}', 'DashboardController@showroom_update');
+    Route::get('/dashboard/showroom/delete/{id}', 'DashboardController@showroom_delete')->name('showroom.delete');
+    Route::post('/dashboard/showroom/delete/{id}', 'DashboardController@showroomy_remove');
+
+    Route::get('/dashboard/showroom/worker/delete/{id}/{image}', 'DashboardController@showroom_image_delete')->name('showroom.worker.delete');
+    Route::get('/dashboard/showroom/gallery/delete/{id}/{image}', 'DashboardController@showroom_gallery_delete')->name('showroom.gallery.delete');
+    // showroom end 
 
 
     Route::get('/dashboard/our-partners', 'DashboardController@our_partners_index');

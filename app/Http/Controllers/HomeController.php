@@ -20,6 +20,8 @@ use App\Blog;
 use App\Product;
 use App\Service;
 use App\Client;
+use App\Factory;
+use App\Showrooms;
 use DB;
 use Illuminate\Mail\Mailable;
 use Illuminate\Support\Facades\Mail;
@@ -206,6 +208,49 @@ class HomeController extends Controller
             ->with('gender',$gender)
             ->with('data', $data)->with('service', $service)
             ->with('clients', $clients);
+    }
+
+
+    public function our_factory()
+    {
+        $service = DB::table('services')
+            ->where('status', 1)
+            ->get();
+
+        $division = product_division::all();
+        $category = product_category::all();;
+        $gender = product_gender::all();
+
+        $factory = Factory::all();
+
+        $data = Factory::all();
+        return view('frontend.factory')->with('title', 'Our Factory')
+            ->with('division',$division)
+            ->with('category',$category)
+            ->with('gender',$gender)
+            ->with('data', $data)->with('service', $service)
+            ->with('factory', $factory);
+    }
+
+    public function factory_details($id)
+    {
+        $service = DB::table('services')
+            ->where('status', 1)
+            ->get();
+
+        $division = product_division::all();
+        $category = product_category::all();;
+        $gender = product_gender::all();
+
+        $factory = Factory::findOrFail($id);
+
+        $data = Factory::findOrFail($id);
+        return view('frontend.factory-details')->with('title', 'Our Factory')
+            ->with('division',$division)
+            ->with('category',$category)
+            ->with('gender',$gender)
+            ->with('data', $data)->with('service', $service)
+            ->with('factory', $factory);
     }
 
     public function our_values()

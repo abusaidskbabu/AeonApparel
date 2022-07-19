@@ -16,6 +16,7 @@ use App\team_member;
 use App\Service;
 use App\Client;
 use App\Factory;
+use App\Showrooms;
 use App\PageCms;
 use App\product_category;
 use App\product_division;
@@ -537,7 +538,7 @@ class DashboardController extends Controller
         $galleries = '';
         if ($request->hasFile('workers')) {
             foreach ($request->file('workers') as $file) {
-                $workers = $file->getClientOriginalName();
+                $workers = time().uniqid().$file->getClientOriginalName();
                 $file->move('backend/factories/', $workers);
                 $worker .=$workers.',';
             }
@@ -545,7 +546,7 @@ class DashboardController extends Controller
 
         if ($request->hasFile('gallery')) {
             foreach ($request->file('gallery') as $file) {
-                $gallery = $file->getClientOriginalName();
+                $gallery = time().uniqid().$file->getClientOriginalName();
                 $file->move('backend/factories/', $gallery);
                 $galleries .= $gallery.',';
             }
@@ -564,49 +565,53 @@ class DashboardController extends Controller
     }
     public function factory_view($id)
     {
-        $client = Factory::findOrFail($id);
-        return view('backend.factory.view')->with('title', 'View Factory')->with('data', $client);
+        $factory = Factory::findOrFail($id);
+        return view('backend.factory.view')->with('title', 'View Factory')->with('data', $factory);
     }
     public function factory_edit($id)
     {
         $data = Factory::findOrFail($id);
-        //return $member;
         return view('backend.factory.edit')->with('title', 'Edit Factory')->with('data', $data);
     }
     public function factory_update(Request $request, $id)
     {
         //return $request;
-        $this->validate($request,
-        [
-            'name' => 'required',
-            'file' => 'max:1096',
-            'state' => 'required|not_in:null'
-
-        ],
-            $messages = [
-                'required' => 'The :attribute field is required.',
-            ]
-        );
+        
         $data = Factory::findOrFail($id);
-        //return $member;
-        if($request->file == null){
-            $data->name = $request->name;
-            $data->image = $request->prev_img;
-            $data->status = $request->state;
-            $data->save();
-        }
-        else{
-            if($request->hasFile('file')){
-                $image = $request->file('file');
-                $filename = time().uniqid().$image->getClientOriginalName();
-                $image->move('uploads', $filename);
+        $data->title = $request->title;
+        $data->location= $request->location;
+        $data->machineries = $request->machineries;
 
-                $data->name = $request->name;
-                $data->image = 'uploads/'.$filename;
-                $data->status = $request->state;
-                $data->save();
-            }
+        if ($request->hasFile('file')) {
+            $image = $request->file('file');
+            $filename = time().uniqid().$image->getClientOriginalName();
+            $image->move('uploads', $filename);
+            $data->banner = 'uploads/'.$filename;
         }
+        
+        
+        
+        if ($request->hasFile('workers')) {
+            $worker = '';
+            foreach ($request->file('workers') as $file) {
+                $workers = time().uniqid().$file->getClientOriginalName();
+                $file->move('backend/factories/', $workers);
+                $worker .=$workers.',';
+            }
+            $data->workers = $data->workers.$worker;
+        }
+
+        if ($request->hasFile('gallery')) {
+            $galleries = '';
+            foreach ($request->file('gallery') as $file) {
+                $gallery = time().uniqid().$file->getClientOriginalName();
+                $file->move('backend/factories/', $gallery);
+                $galleries .= $gallery.',';
+            }
+            $data->gallery = $data->gallery.$galleries;
+        }
+        $data->save();
+
         return redirect('/dashboard/factory')->with('success', 'Factory Has Been Edited !');
     }
     public function factory_delete($id)
@@ -617,23 +622,266 @@ class DashboardController extends Controller
     public function factory_remove($id)
     {
         $data = Factory::findOrFail($id);
-        if($data->image != null){
-            File::delete($data->image);
+        if($data->banner != null){
+            File::delete($data->banner);
         }
 
-        $client_files = ClientFile::where('client_id', $id);
+        $galleries = explode(",",$data->gallery);
 
-        if ($client_files != null) {
-            foreach ($client_files as $file) {
-                File::delete($file->file);
+        if ($galleries != null) {
+            foreach ($galleries as $kew => $value) {
+                $image_path = 'backend/factories/'.$value;
+                if(File::exists($image_path)) {
+                    File::delete($image_path);
+                }
             }
         }
 
+        $workers = explode(",",$data->workers);
+
+        if ($workers != null) {
+            foreach ($workers as $key => $value) {
+                $image_path = 'backend/factories/'.$value;
+                if(File::exists($image_path)) {
+                    File::delete($image_path);
+                }
+            }
+        }
 
         $data->delete();
         return redirect('/dashboard/factory')->with('success', 'Factory Has Been Deleted !');
     }
 
+    public function factory_image_delete($id, $image){
+        $data = Factory::findOrFail($id);
+        $workers = explode(",",$data->workers);
+
+        if (($key = array_search($image, $workers)) !== false) {
+            $image_path = 'backend/factories/'.$image;
+            if(File::exists($image_path)) {
+                File::delete($image_path);
+            }
+            unset($workers[$key]);
+        }
+        $current_workers = '';
+        foreach ($workers as $key => $value) {
+            $current_workers .= $value.',';
+        }
+        $data->workers = $current_workers;
+        $data->save();
+        return redirect()->back()->with('title', 'Edit Factory')->with('data', $data);
+    }
+
+    public function factory_gallery_delete($id, $image){
+        $data = Factory::findOrFail($id);
+        $gallery = explode(",",$data->gallery);
+
+        if (($key = array_search($image, $gallery)) !== false) {
+            $image_path = 'backend/factories/'.$image;
+            if(File::exists($image_path)) {
+                File::delete($image_path);
+            }
+            unset($gallery[$key]);
+        }
+        $current_gallery = '';
+        foreach ($gallery as $key => $value) {
+            $current_gallery .= $value.',';
+        }
+        $data->gallery = $current_gallery;
+        $data->save();
+        return redirect()->back()->with('title', 'Edit Factory')->with('data', $data);
+    }
+
+    // factory end 
+
+
+    // showroom start 
+
+    public function showroom_index()
+    {
+        $showroom = Showrooms::all();
+        return view('backend.showroom.index')->with('title', 'Our Showroom')->with('data', $showroom);
+    }
+    public function showroom_create()
+    {
+        return view('backend.showroom.create')->with('title', 'Create Showroom');
+    }
+    public function showroom_insert(Request $request)
+    {
+        //return $request;
+        $this->validate($request,
+        [
+            'title' => 'required',
+            'file' => 'required',
+
+        ],
+            $messages = [
+                'required' => 'The :attribute field is required.',
+            ]
+        );
+       
+
+        $image = $request->file('file');
+        $filename = time().uniqid().$image->getClientOriginalName();
+        $image->move('uploads', $filename);
+
+        $worker = '';
+        $galleries = '';
+        if ($request->hasFile('workers')) {
+            foreach ($request->file('workers') as $file) {
+                $workers = time().uniqid().$file->getClientOriginalName();
+                $file->move('backend/showrooms/', $workers);
+                $worker .=$workers.',';
+            }
+        }
+
+        if ($request->hasFile('gallery')) {
+            foreach ($request->file('gallery') as $file) {
+                $gallery = time().uniqid().$file->getClientOriginalName();
+                $file->move('backend/showrooms/', $gallery);
+                $galleries .= $gallery.',';
+            }
+        }
+
+        $showroom = new Showrooms();
+        $showroom->title = $request->title;
+        $showroom->location= $request->location;
+        $showroom->banner = 'uploads/'.$filename;
+        $showroom->workers = $worker;
+        $showroom->gallery = $galleries;
+        $showroom->save();
+
+        return redirect('/dashboard/showroom')->with('success', 'Showroom Has Been Created !');
+    }
+    public function showroom_view($id)
+    {
+        $showroom = Showrooms::findOrFail($id);
+        return view('backend.showroom.view')->with('title', 'View Showroom')->with('data', $showroom);
+    }
+    public function showroom_edit($id)
+    {
+        $data = Showrooms::findOrFail($id);
+        return view('backend.showroom.edit')->with('title', 'Edit Showroom')->with('data', $data);
+    }
+    public function showroom_update(Request $request, $id)
+    {
+        //return $request;
+        
+        $data = Showrooms::findOrFail($id);
+        $data->title = $request->title;
+        $data->location= $request->location;
+
+        if ($request->hasFile('file')) {
+            $image = $request->file('file');
+            $filename = time().uniqid().$image->getClientOriginalName();
+            $image->move('uploads', $filename);
+            $data->banner = 'uploads/'.$filename;
+        }
+        
+        
+        
+        if ($request->hasFile('workers')) {
+            $worker = '';
+            foreach ($request->file('workers') as $file) {
+                $workers = time().uniqid().$file->getClientOriginalName();
+                $file->move('backend/showrooms/', $workers);
+                $worker .=$workers.',';
+            }
+            $data->workers = $data->workers.$worker;
+        }
+
+        if ($request->hasFile('gallery')) {
+            $galleries = '';
+            foreach ($request->file('gallery') as $file) {
+                $gallery = time().uniqid().$file->getClientOriginalName();
+                $file->move('backend/showrooms/', $gallery);
+                $galleries .= $gallery.',';
+            }
+            $data->gallery = $data->gallery.$galleries;
+        }
+        $data->save();
+
+        return redirect('/dashboard/showroom')->with('success', 'Showroom Has Been Edited !');
+    }
+    public function showroom_delete($id)
+    {
+        $data = Showrooms::findOrFail($id);
+        return view('backend.showroom.delete')->with('title', 'Delete Showroom')->with('data', $data);
+    }
+    public function showroom_remove($id)
+    {
+        $data = Showrooms::findOrFail($id);
+        if($data->banner != null){
+            File::delete($data->banner);
+        }
+
+        $galleries = explode(",",$data->gallery);
+
+        if ($galleries != null) {
+            foreach ($galleries as $kew => $value) {
+                $image_path = 'backend/showrooms/'.$value;
+                if(File::exists($image_path)) {
+                    File::delete($image_path);
+                }
+            }
+        }
+
+        $workers = explode(",",$data->workers);
+
+        if ($workers != null) {
+            foreach ($workers as $key => $value) {
+                $image_path = 'backend/showrooms/'.$value;
+                if(File::exists($image_path)) {
+                    File::delete($image_path);
+                }
+            }
+        }
+
+        $data->delete();
+        return redirect('/dashboard/showroom')->with('success', 'Showroom Has Been Deleted !');
+    }
+
+    public function showroom_image_delete($id, $image){
+        $data = Showrooms::findOrFail($id);
+        $workers = explode(",",$data->workers);
+
+        if (($key = array_search($image, $workers)) !== false) {
+            $image_path = 'backend/showrooms/'.$image;
+            if(File::exists($image_path)) {
+                File::delete($image_path);
+            }
+            unset($workers[$key]);
+        }
+        $current_workers = '';
+        foreach ($workers as $key => $value) {
+            $current_workers .= $value.',';
+        }
+        $data->workers = $current_workers;
+        $data->save();
+        return redirect()->back()->with('title', 'Edit Showroom')->with('data', $data);
+    }
+
+    public function showroom_gallery_delete($id, $image){
+        $data = Showrooms::findOrFail($id);
+        $gallery = explode(",",$data->gallery);
+
+        if (($key = array_search($image, $gallery)) !== false) {
+            $image_path = 'backend/showrooms/'.$image;
+            if(File::exists($image_path)) {
+                File::delete($image_path);
+            }
+            unset($gallery[$key]);
+        }
+        $current_gallery = '';
+        foreach ($gallery as $key => $value) {
+            $current_gallery .= $value.',';
+        }
+        $data->gallery = $current_gallery;
+        $data->save();
+        return redirect()->back()->with('title', 'Edit Showroom')->with('data', $data);
+    }
+
+    // showroom end 
 
     public function our_partners_index()
     {

@@ -65,6 +65,12 @@
     </li>
 
     <li class="nav-item">
+        <a class="nav-link" href="/dashboard/showroom">
+            <i class="fas fa-th-large"></i>
+            <span>Our Showrooms</span></a>
+    </li>
+
+    <li class="nav-item">
         <a class="nav-link" href="{{ route('review.index') }}">
             <i class="fas fa-th-large"></i>
             <span>Client Reviews</span></a>

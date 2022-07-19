@@ -41,7 +41,7 @@
                             </div>
                             @endif
                             <div class="row">
-                                <div class="col-md-4"><strong>Name:</strong></div>
+                                <div class="col-md-4"><strong>Title:</strong></div>
                                 <div class="col-md-8">
                                     <input type="text" class="form-control form-control-sm" name="title" value="{{old('title')}}">
                                 </div>
