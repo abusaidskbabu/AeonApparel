@@ -21,6 +21,17 @@
 												<li> <a href="{{ url('/our-showroom') }}">Our Showroom</a> </li>
 											</ul>
 										</li>
+
+										<li> <a href="#">Lead Time</a>
+											<ul>
+												<li> <a href="{{ url('/about-us')}}">Production Lead Time</a> </li>
+												<li> <a href="{{ url('/our-partner')}}">Sampling Time</a> </li>
+												<li> <a href="{{ url('/our-clients')}}">Sampling Policy</a> </li>
+												<li> <a href="{{ url('/our-factory') }}">Business Terms</a> </li>
+												<li> <a href="{{ url('/our-showroom') }}">Payment Procedure</a> </li>
+											</ul>
+										</li>
+
 										<li> <a href="#">Services</a>
 											<ul>
 												@foreach(App\Service::where('status',1)->get() as $row)
@@ -74,17 +85,17 @@
 											</ul>
 										</li>
 										<!-- eof pages -->
-										<li> 
+										{{-- <li> 
 											<a href="{{ url('/ourteam') }}">Team</a>
 										</li>
 
 										<li> 
 											<a href="{{ url('/career') }}">Career</a>
-										</li>
+										</li> --}}
 										<!-- eof features -->
 										
 										<!-- blog -->
-										<li> <a href="{{ url('blogs') }}">Blog</a> </li>
+										{{-- <li> <a href="{{ url('blogs') }}">Blog</a> </li> --}}
 										<!-- eof blog -->
 										<!-- contacts -->
 										<li> <a href="{{ url('/contact-us') }}">Contact</a> </li>

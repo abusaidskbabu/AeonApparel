@@ -21,9 +21,12 @@ Route::get('/about-us', 'HomeController@about_us');
 Route::get('/our-values', 'HomeController@our_values');
 Route::get('/our-partner', 'HomeController@our_partners');
 Route::get('/our-clients', 'HomeController@our_clients');
+
 Route::get('/our-factory', 'HomeController@our_factory');
 Route::get('/factory/{id}', 'HomeController@factory_details')->name('factory.details');
 Route::get('/our-showroom', 'HomeController@our_showroom');
+Route::get('/showroom/{id}', 'HomeController@showroom_details')->name('showroom.details');
+
 Route::get('/client-info/{id}', 'HomeController@client_info')->name('client-info');
 Route::get('/partner-info/{id}', 'HomeController@partner_info')->name('partner-info');
 Route::get('/contact-us', 'HomeController@contact_us');

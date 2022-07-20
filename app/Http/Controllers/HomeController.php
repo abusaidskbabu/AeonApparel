@@ -253,6 +253,49 @@ class HomeController extends Controller
             ->with('factory', $factory);
     }
 
+
+    public function our_showroom()
+    {
+        $service = DB::table('services')
+            ->where('status', 1)
+            ->get();
+
+        $division = product_division::all();
+        $category = product_category::all();;
+        $gender = product_gender::all();
+
+        $showroom = Showrooms::all();
+
+        $data = Showrooms::all();
+        return view('frontend.showroom')->with('title', 'Our Showroom')
+            ->with('division',$division)
+            ->with('category',$category)
+            ->with('gender',$gender)
+            ->with('data', $data)->with('service', $service)
+            ->with('showroom', $showroom);
+    }
+
+    public function showroom_details($id)
+    {
+        $service = DB::table('services')
+            ->where('status', 1)
+            ->get();
+
+        $division = product_division::all();
+        $category = product_category::all();;
+        $gender = product_gender::all();
+
+        $showroom = Showrooms::findOrFail($id);
+
+        $data = Showrooms::findOrFail($id);
+        return view('frontend.showroom-details')->with('title', 'Our Showroom')
+            ->with('division',$division)
+            ->with('category',$category)
+            ->with('gender',$gender)
+            ->with('data', $data)->with('service', $service)
+            ->with('showroom', $showroom);
+    }
+
     public function our_values()
     {
         $service = DB::table('services')

@@ -10,7 +10,7 @@
                         Home
                     </a> 
                     </li>
-                    <li> <a href="#">Factory</a> </li>
+                    <li> <a href="#">Showroom</a> </li>
                     <li> <a href="#">{{$data->title}}</a> </li>
                 </ol>            
             </div>
@@ -37,27 +37,22 @@
 						<div class="item-content mt-2">
 							<div class="entry-content">
 								<div class="row">
-									<div class="col-lg-10">
-										<h5>Machineries</h5>
-										@foreach(explode(",",$data->machineries) as $key => $value) 
-		                                    <span class="badge badge-success p-1" >{{ $value }}</span>
-		                                @endforeach
-									</div>
-									<div class="col-lg-2">
+
+									<div class="col-lg-12">
 										<a href="{{$data->location}}" target="_blank" class="text-success"><i class="fas fa-map-marker-alt"></i> Location</a>
 									</div>
 
 									<div class="col-lg-12">
-										<h5>Workers</h5>
+										<h5>Picture</h5>
 										<div class="owl-carousel products-carousel gallery-carousel " data-nav="false" data-dots="true"
 										    data-responsive-xlg="5" data-responsive-sm="3" data-responsive-xs="2" data-responsive-xxs="1" data-filters=".carousel_filters" data-margin="30">
 									    	@foreach(explode(",",$data->workers) as $key => $value)
 									    		@if($value != '')
 													<article class="product vertical-item text-center with-corner-label mt-4 mb-4">
 														<div class="item-media-wrap">
-															<div class="item-media"> 
-																<a href="{{asset('backend/factories/'.$value)}}">
-								                            		<img src="{{asset('backend/factories/'.$value)}}" height="100%" width="100%" class="mb-1">
+															<div class="item-media" style="height: auto;"> 
+																<a href="{{asset('backend/showrooms/'.$value)}}">
+								                            		<img src="{{asset('backend/showrooms/'.$value)}}" height="100%" width="100%" class="mb-1">
 							                        			</a>
 															</div>
 														</div>
@@ -77,8 +72,8 @@
 													<article class="product vertical-item text-center with-corner-label mt-4 mb-4">
 														<div class="item-media-wrap">
 															<div class="item-media" style="height: auto;"> 
-																<a href="{{asset('backend/factories/'.$value)}}">
-								                            		<img src="{{asset('backend/factories/'.$value)}}" height="100%" width="100%" class="mb-1">
+																<a href="{{asset('backend/showrooms/'.$value)}}">
+								                            		<img src="{{asset('backend/showrooms/'.$value)}}" height="100%" width="100%" class="mb-1">
 							                        			</a>
 															</div>
 														</div>

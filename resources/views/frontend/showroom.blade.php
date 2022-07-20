@@ -10,7 +10,7 @@
                         Home
                     </a> 
                     </li>
-                    <li> <a href="#">Clients</a> </li>
+                    <li> <a href="#">Showrooms</a> </li>
                 </ol>            
             </div>
         </div>
@@ -22,9 +22,10 @@
                 <div class="col-xs-12">
                     <div class="isotope_container isotope row masonry-layout images-grid columns_margin_bottom_20">
                         @foreach($data as $row)
-                            <div class="isotope-item col-xs-4 col-sm-3"> 
-                                <a href="#" class="with_shadow">
-                                    <img src="{{asset($row->image)}}" alt="">
+                            <div class="isotope-item col-xs-12 col-sm-4"> 
+                                <a href="{{ route('showroom.details', $row->id)}}" class="with_shadow br-radius-5">
+                                    <img src="{{asset($row->banner)}}" class="p-2" alt="">
+                                    <h4 class="m-0 p-2 text-center border-top-1"> {{$row->title}} </h4>
                                 </a> 
                             </div>
                         @endforeach
