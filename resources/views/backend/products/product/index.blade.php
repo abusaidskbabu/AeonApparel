@@ -41,9 +41,10 @@
                                 <tr>
                                   <th>#</th>
                                   <th>Name</th>
-                                  <th>Division</th>
+                                  {{-- <th>Division</th> --}}
                                   <th>Category</th>
-                                  <th>Gender</th>
+                                  <th>Sub-Category</th>
+                                  {{-- <th>Gender</th> --}}
                                   <th>Status</th>
                                   <th>Action</th>
                                 </tr>
@@ -51,11 +52,12 @@
                               <tbody align="center">
                                   @foreach ($data as $dt)
                                       <tr>
-                                         <td>{{$dt->pro_id}}</td>
+                                         <td>{{$dt->id}}</td>
                                          <td>{{$dt->name}}</td>
-                                         <td>{{$dt->division_name}}</td>
-                                         <td>{{$dt->category_name}}</td>
-                                         <td>{{$dt->gender_name}}</td>
+                                         {{-- <td>{{$dt->division_name}}</td> --}}
+                                         <td>{{$dt->parent->category_name}}</td>
+                                         <td>{{$dt->subcategory->category_name}}</td>
+                                         {{-- <td>{{$dt->gender_name}}</td> --}}
                                          @if ($dt->status == 1)
                                          <td>Active</td>
                                          @else
@@ -67,10 +69,10 @@
                                                     <i class="fas fa-ellipsis-h"></i>
                                                 </button>
                                                 <div class="dropdown-menu">
-                                                <a class="dropdown-item" href="{{route('products.view', $dt->pro_id)}}">View</a>
-                                                <a class="dropdown-item" href="{{route('products.edit', $dt->pro_id)}}">Edit</a>
+                                                <a class="dropdown-item" href="{{route('products.view', $dt->id)}}">View</a>
+                                                <a class="dropdown-item" href="{{route('products.edit', $dt->id)}}">Edit</a>
                                                 <div class="dropdown-divider"></div>
-                                                <a class="dropdown-item" onclick="return confirm('Are you sure?')" href="{{route('products.delete', $dt->pro_id)}}">Delete</a>
+                                                <a class="dropdown-item" onclick="return confirm('Are you sure?')" href="{{route('products.delete', $dt->id)}}">Delete</a>
                                                 </div>
                                             </div>
                                          </td>

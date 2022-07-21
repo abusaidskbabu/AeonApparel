@@ -47,7 +47,7 @@
                                 </div>
                             </div>
                             <hr>
-                            <div class="row">
+                            {{-- <div class="row">
                                 <div class="col-md-4"><strong>Division:</strong></div>
                                 <div class="col-md-8">
                                     <select class="form-control form-control-sm" name="division">
@@ -59,12 +59,12 @@
                                 </div>
                             </div>
 
-                            <hr>
+                            <hr> --}}
 
                             <div class="row">
                                 <div class="col-md-4"><strong>Category:</strong></div>
                                 <div class="col-md-8">
-                                    <select class="form-control form-control-sm" name="category">
+                                    <select class="form-control form-control-sm" name="parent_category" id="parent_category" required="">
                                         <option value="null">----Select Category----</option>
                                         @foreach ($category as $cat)
                                             <option value="{{$cat->id}}">{{$cat->category_name}}</option>
@@ -73,7 +73,17 @@
                                 </div>
                             </div>
                             <hr>
+
                             <div class="row">
+                                <div class="col-md-4"><strong>Sub-Category:</strong></div>
+                                <div class="col-md-8">
+                                    <select class="form-control form-control-sm" name="sub_category" id="sub_category" required="">
+                                        <option value="null">----Select Sub-Category----</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <hr>
+                            {{-- <div class="row">
                                 <div class="col-md-4"><strong>Gender:</strong></div>
                                 <div class="col-md-8">
                                     <select class="form-control form-control-sm" name="gender">
@@ -84,7 +94,7 @@
                                     </select>
                                 </div>
                             </div>
-                            <hr>
+                            <hr> --}}
                             <div class="row">
                                 <div class="col-md-4"><strong>Image:</strong></div>
                                 <div class="col-md-4">
@@ -154,19 +164,39 @@
 </div>
 </div>
 <script src="{{asset('backend/js/tinymce/tinymce.min.js')}}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script>
     function showPreview1(event){
-  if(event.target.files.length > 0){
+      if(event.target.files.length > 0){
 
-    var src1 = URL.createObjectURL(event.target.files[0]);
+        var src1 = URL.createObjectURL(event.target.files[0]);
 
-    var preview1 = document.getElementById("file-ip-1-preview");
+        var preview1 = document.getElementById("file-ip-1-preview");
 
-    preview1.src = src1;
+        preview1.src = src1;
 
-    preview1.style.display = "block";
-  }
-}
+        preview1.style.display = "block";
+      }
+    }
+
+    $("#parent_category").change(function(){
+        var parent_category = $(this).val();
+        if(parent_category) {
+            $.ajax({
+                url: "{{  url('/dashboard/get/subcategory/') }}/"+parent_category,
+                type:"GET",
+                dataType:"json",
+                success:function(data) {
+                    var d =$('select[name="sub_category"]').empty();
+                    $.each(data, function(key, value){
+                       $('select[name="sub_category"]').append('<option value="'+ value.id +'">' + value.category_name + '</option>');
+                    });
+                },
+            });
+        }else {
+            alert('danger');
+        }
+    });
 
     function showPreview2(event){
         if(event.target.files.length > 0){

@@ -200,6 +200,8 @@ Route::group(['middleware'=>['checkToAccess']], function() {
     Route::get('/dashboard/products/delete/{id}', 'DashboardController@products_remove')->name('products.delete');
     Route::post('/dashboard/products/delete/{id}', 'DashboardController@products_remove');
 
+    Route::get('/dashboard/get/subcategory/{id}', 'DashboardController@get_subcategory');
+
     Route::get('/dashboard/settings', 'DashboardController@settings')->name('dashboard.settings');
     Route::post('/dashboard/settings', 'DashboardController@update_password');
 

@@ -1255,7 +1255,7 @@ class DashboardController extends Controller
     {
         $this->validate($request,
         [
-            'category_name' => 'required|unique:product_categories',
+            'category_name' => 'required',
 
         ],
             $messages = [
@@ -1266,6 +1266,7 @@ class DashboardController extends Controller
 
             $insert = product_category::create([
                 'category_name'=>$request->category_name,
+                'parent_id'=>$request->parent_id,
 
             ]);
 
@@ -1296,7 +1297,7 @@ class DashboardController extends Controller
         $data = product_category::findOrFail($id);
 
             $data->category_name = $request->category_name;
-
+            $data->parent_id = $request->parent_id;
             $data->save();
 
         return redirect()->route('category.index')->with('success', 'Category Has Been Edited !');
@@ -1375,21 +1376,21 @@ class DashboardController extends Controller
     }
 
     //Products
+    public function get_subcategory($id){
+        $subcategory = product_category::where('parent_id', $id)
+                               ->get();
+        return json_encode($subcategory);
+    }
 
     public function products_index()
     {
-        $product = DB::table('products')
-        ->join('product_categories', 'products.category', '=', 'product_categories.id')
-        ->join('product_divisions', 'products.division', '=', 'product_divisions.id')
-        ->join('product_genders', 'products.gender', '=', 'product_genders.id')
-        ->select('products.id as pro_id', 'product_categories.category_name', 'product_divisions.division_name', 'product_genders.gender_name' , 'products.name', 'products.status')
-        ->get();
+        $product = Product::all();
         //return $product;
         return view('backend.products.product.index')->with('title', 'Products')->with('data', $product);
     }
     public function products_create()
     {
-        $category = product_category::all();
+        $category = product_category::whereNull('parent_id')->get();
         $division = product_division::all();
         $gender = product_gender::all();
         return view('backend.products.product.create')
@@ -1398,15 +1399,17 @@ class DashboardController extends Controller
         ->with('gender', $gender)
         ->with('division', $division);
     }
+
     public function products_insert(Request $request)
     {
         //return $request;
         $this->validate($request,
             [
                 'name' => 'required',
-                'division' => 'required|not_in:null',
-                'category' => 'required|not_in:null',
-                'gender' => 'required|not_in:null',
+                // 'division' => 'required|not_in:null',
+                'parent_category' => 'required|not_in:null',
+                'sub_category' => 'required|not_in:null',
+                // 'gender' => 'required|not_in:null',
                 'image_front' => 'max:1096',
                 'image_back' => 'max:1096',
                 'status' => 'required|not_in:null'
@@ -1435,9 +1438,9 @@ class DashboardController extends Controller
 
         $insert = Product::create([
             'name' => $request->name,
-            'division' => $request->division,
-            'category' => $request->category,
-            'gender' => $request->gender,
+            'parent_category' => $request->parent_category,
+            'category' => $request->sub_category,
+            // 'gender' => $request->gender,
             'image_front' => 'uploads/' . $image_front_name,
             'image_back' => 'uploads/' . $image_back_name,
             'color' => $request->color,
@@ -1456,16 +1459,11 @@ class DashboardController extends Controller
         } catch (\Throwable $th) {
             return redirect()->back();
         }
-        $product = DB::table('products')
-        ->join('product_categories', 'products.category', '=', 'product_categories.id')
-        ->join('product_divisions', 'products.division', '=', 'product_divisions.id')
-        ->join('product_genders', 'products.gender', '=', 'product_genders.id')
-        ->select('products.*', 'product_categories.category_name', 'product_divisions.division_name', 'product_genders.gender_name')
-        ->where('products.id', '=', $id)
-        ->first();
+        $product = Product::findOrFail($id);
         //return $product;
         return view('backend.products.product.view')->with('title', 'View Product')->with('data', $product);
     }
+
     public function products_edit($id)
     {
         try {
@@ -1479,13 +1477,7 @@ class DashboardController extends Controller
         $division = product_division::all();
         $gender = product_gender::all();
 
-        $product = DB::table('products')
-            ->join('product_categories', 'products.category', '=', 'product_categories.id')
-            ->join('product_divisions', 'products.division', '=', 'product_divisions.id')
-            ->join('product_genders', 'products.gender', '=', 'product_genders.id')
-            ->select('products.*', 'product_categories.category_name', 'product_divisions.division_name', 'product_genders.gender_name')
-            ->where('products.id', '=', $id)
-            ->first();
+        $product = Product::findOrFail($id);
         //var_dump($product);
         return view('backend.products.product.edit')->with('title', 'Edit Products')
             ->with('data', $product)
@@ -1493,6 +1485,7 @@ class DashboardController extends Controller
             ->with('category', $category)
             ->with('gender', $gender);
     }
+    
     public function products_update(Request $request, $id)
     {
         //return $request;

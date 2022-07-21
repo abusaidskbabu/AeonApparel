@@ -47,7 +47,7 @@
                                         </div>
                                     </div>
                                     <hr>
-                                    <div class="row">
+                                    {{-- <div class="row">
                                         <div class="col-md-4"><strong>Division:</strong></div>
                                         <div class="col-md-8">
                                             <select class="form-control form-control-sm" name="division">
@@ -59,7 +59,7 @@
                                         </div>
                                     </div>
 
-                                    <hr>
+                                    <hr> --}}
 
                                     <div class="row">
                                         <div class="col-md-4"><strong>Category:</strong></div>
@@ -73,7 +73,7 @@
                                         </div>
                                     </div>
                                     <hr>
-                                    <div class="row">
+                                    {{-- <div class="row">
                                         <div class="col-md-4"><strong>Gender:</strong></div>
                                         <div class="col-md-8">
                                             <select class="form-control form-control-sm" name="gender">
@@ -84,7 +84,7 @@
                                             </select>
                                         </div>
                                     </div>
-                                    <hr>
+                                    <hr> --}}
                                     <div class="row">
                                         <div class="col-md-4"><strong>Image:</strong></div>
                                         <div class="col-md-4">

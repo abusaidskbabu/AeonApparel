@@ -41,6 +41,7 @@
                                 <tr>
                                   <th>#</th>
                                   <th>Category Name</th>
+                                  <th>Parent Category</th>
                                   <th>Action</th>
                                 </tr>
                               </thead>
@@ -49,6 +50,7 @@
                                       <tr>
                                          <td>{{$dt->id}}</td>
                                          <td>{{$dt->category_name}}</td>
+                                         <td>{{$dt->parent->category_name ?? ''}}</td>
                                          <td>
                                             <div class="btn-group">
                                                 <button type="button" class="btn btn-primary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

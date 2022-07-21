@@ -22,21 +22,27 @@
                             <div class="col-md-6">{{$data->name}}</div>
                         </div>
                         <hr>
-                        <div class="row">
+                       {{--  <div class="row">
                             <div class="col-md-6"><strong>Division:</strong></div>
                             <div class="col-md-6">{{$data->division_name}}</div>
                         </div>
-                        <hr>
+                        <hr> --}}
                         <div class="row">
                             <div class="col-md-6"><strong>Category:</strong></div>
-                            <div class="col-md-6">{{$data->category_name}}</div>
+                            <div class="col-md-6">{{$data->parent->category_name}}</div>
                         </div>
                         <hr>
-                        <div class="row">
+
+                         <div class="row">
+                            <div class="col-md-6"><strong>Sub-Category:</strong></div>
+                            <div class="col-md-6">{{$data->subcategory->category_name}}</div>
+                        </div>
+                        <hr>
+                        {{-- <div class="row">
                             <div class="col-md-6"><strong>Gender:</strong></div>
                             <div class="col-md-6">{{$data->gender_name}}</div>
                         </div>
-                        <hr>
+                        <hr> --}}
                         <div class="row">
                             <div class="col-md-6"><strong>Image:</strong></div>
                             <div class="col-md-3">

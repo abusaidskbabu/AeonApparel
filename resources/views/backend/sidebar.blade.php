@@ -142,9 +142,9 @@
             <a class="collapse-item" href="{{route('products.index')}}">View Products</a>
             <div class="collapse-divider"></div>
             <h6 class="collapse-header">Categories</h6>
-              <a class="collapse-item" href="{{route('division.index')}}">Product Division</a>
+              {{-- <a class="collapse-item" href="{{route('division.index')}}">Product Division</a> --}}
             <a class="collapse-item" href="{{route('category.index')}}">Product Category</a>
-            <a class="collapse-item" href="{{route('gender.index')}}">Gender Category</a>
+            {{-- <a class="collapse-item" href="{{route('gender.index')}}">Gender Category</a> --}}
           </div>
         </div>
       </li>

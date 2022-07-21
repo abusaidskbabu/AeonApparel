@@ -36,6 +36,19 @@
                                 </div>
                             </div>
                             <hr>
+                            <div class="row">
+                                <div class="col-md-4"><strong>Parent Category:</strong></div>
+                                <div class="col-md-8">
+                                    <select class="form-control form-control-sm" name="parent_id" value="{{old('parent_id')}}">
+                                        <option value="">Select</option>
+                                        @foreach(\App\product_category::all() as $row)
+                                            <option value="{{$row->id}}">{{ $row->category_name}}</option>
+                                        @endforeach
+                                    </select>
+                                    {{-- <input type="text" class="form-control form-control-sm" name="category_name" value="{{old('category_name')}}" placeholder="Ex. Shirt"> --}}
+                                </div>
+                            </div>
+                            <hr>
                             <div class="row justify-content-center">
                                 <button type="submit" class="btn btn-success btn-sm">Create</button> &NonBreakingSpace;&NonBreakingSpace;
                                 <a href="{{route('category.index')}}" class="btn btn-primary btn-sm">Cancel</a>
