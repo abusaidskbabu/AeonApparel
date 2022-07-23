@@ -23,6 +23,44 @@
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
                                aria-haspopup="true" aria-expanded="false">
+                                Products
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                @php
+                                    $parrent_cat = \App\product_division::whereNull('parent_id')->get();
+                                @endphp
+                                @foreach($parrent_cat as $pcat)
+                                    <li class="nav-item dropdown">
+                                        <a class="dropdown-item dropdown-toggle" href="#" id="navbarDropdown1" role="button" data-toggle="dropdown"
+                                           aria-haspopup="true" aria-expanded="false">
+                                            {{ $pcat->category_name }}
+                                        </a>
+                                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown1">
+                                            @php
+                                                $category = \App\product_division::where('parent_id', $pcat->id)->get();
+                                            @endphp
+
+                                            @if(!$category->isEmpty())
+                                                @foreach ($category as $cat)
+                                                    <li class="nav-item dropdown">
+                                                        <a class="dropdown-item dropdown-toggle" href="#" id="navbarDropdown2" role="button" data-toggle="dropdown"
+                                                           aria-haspopup="true" aria-expanded="false">
+                                                            {{ $cat->category_name }}
+                                                        </a>
+                                                    </li>
+                                                @endforeach
+                                            @endif
+                                        </ul>
+                                    </li>
+
+                                @endforeach
+
+                            </ul>
+                        </li>
+
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+                               aria-haspopup="true" aria-expanded="false">
                                 About
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -80,125 +118,7 @@
                         </li>
 
 
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
-                               aria-haspopup="true" aria-expanded="false">
-                                Products
-                            </a>
-                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-
-                                @php
-
-                                    $division = \App\product_division::all();
-
-                                @endphp
-
-
-                                @foreach($division as $div)
-
-                                    <li class="nav-item dropdown">
-
-                                        <a class="dropdown-item dropdown-toggle" href="#" id="navbarDropdown1" role="button" data-toggle="dropdown"
-                                           aria-haspopup="true" aria-expanded="false">
-                                            {{ $div->division_name }}
-                                        </a>
-
-
-                                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown1">
-
-                                            @php
-                                                $category = DB::table('products')
-                                                            ->join('product_categories','products.category', '=', 'product_categories.id')
-                                                            ->select('product_categories.category_name', 'product_categories.id as cat_id')
-                                                            ->where('products.division', $div->id)
-                                                            ->distinct()
-                                                            ->get();
-                                            @endphp
-
-                                            @if(!$category->isEmpty())
-
-                                                @foreach ($category as $cat)
-
-
-                                                    <li class="nav-item dropdown">
-                                                        <a class="dropdown-item dropdown-toggle" href="#" id="navbarDropdown2" role="button" data-toggle="dropdown"
-                                                           aria-haspopup="true" aria-expanded="false">
-                                                            {{ $cat->category_name }}
-                                                        </a>
-                                                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown2">
-
-                                                            @php
-                                                                $gender = DB::table('products')
-                                                                            ->join('product_genders','products.gender', '=', 'product_genders.id')
-                                                                            ->select('product_genders.gender_name', 'products.gender as gen_id')
-                                                                            ->where('products.category', $cat->cat_id)
-                                                                            ->distinct()
-                                                                            ->get();
-
-                                                            @endphp
-
-                                                            @if(!$gender->isEmpty())
-
-
-                                                                @foreach($gender as $gen)
-
-                                                                    <li class="nav-item dropdown">
-                                                                        <a class="dropdown-item " href="{{ route('products_view', ['div_id'=>$div->id, 'cat_id'=>$cat->cat_id, 'gen_id'=>$gen->gen_id]) }}"
-                                                                           aria-haspopup="true" aria-expanded="false">
-                                                                            {{ $gen->gender_name }}
-                                                                        </a>
-
-{{--                                                                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">--}}
-
-{{--                                                                            @php--}}
-{{--                                                                                $product = DB::table('products')--}}
-{{--                                                                                            ->join('product_divisions','products.division', '=', 'product_divisions.id')--}}
-{{--                                                                                            ->join('product_categories','products.category', '=', 'product_categories.id')--}}
-{{--                                                                                            ->join('product_genders','products.gender', '=', 'product_genders.id')--}}
-{{--                                                                                            ->select('products.name', 'products.id as pro_id')--}}
-
-{{--                                                                                            ->where('products.gender', $gen->gen_id)--}}
-{{--                                                                                            ->orWhere('products.division', $div->div_id)--}}
-{{--                                                                                            ->orWhere('products.category', $cat->cat_id)--}}
-{{--                                                                                            ->distinct()--}}
-{{--                                                                                            ->get();--}}
-
-{{--                                                                            @endphp--}}
-
-{{--                                                                            @if (!$product->isEmpty())--}}
-{{--                                                                                @foreach ($product as $pro)--}}
-
-{{--                                                                                    <li class="nav-item">--}}
-{{--                                                                                        <a class="dropdown-item" href="{{ route('product.view', $pro->pro_id) }}" id="navbarDropdown1"--}}
-{{--                                                                                           aria-expanded="false">--}}
-{{--                                                                                            {{ $pro->name }}--}}
-{{--                                                                                        </a>--}}
-
-{{--                                                                                    </li>--}}
-
-{{--                                                                                @endforeach--}}
-{{--                                                                            @endif--}}
-{{--                                                                        </ul>--}}
-
-                                                                    </li>
-
-                                                                @endforeach
-                                                            @endif
-
-
-                                                        </ul>
-                                                    </li>
-
-                                                @endforeach
-                                            @endif
-                                        </ul>
-                                    </li>
-
-                                @endforeach
-
-
-                            </ul>
-                        </li>
+                        
 
 
 

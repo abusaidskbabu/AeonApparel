@@ -10,9 +10,8 @@
                         Home
                     </a> 
                     </li>
-                    <li><a href="{{ route('division', $products[0]->division) }}">{{ $products[0]->division_name }}</a></li>
-                    <li><a href="{{ route('category', ['div_id' => $products[0]->division, 'cat_id' => $products[0]->category]) }}">{{ $products[0]->category_name }}</a></li>
-                    <li>{{ $products[0]->gender_name }}</li>
+                    <li><a href="">{{ $parent->category_name }}</a></li>
+                    <li><a href="">{{ $category->category_name }}</a></li>
                 </ol>            
             </div>
         </div>
@@ -51,20 +50,11 @@
                     <div class="widget widget_categories">
                         <h3 class="widget-title">Categories</h3>
                         <ul class="greylinks">
-                            <li> 
-                                <a href="shop.html">Picanha turducken</a> <span>34</span>
-                                <ul>
-                                    <li> <a href="shop.html">Tail Meatball</a> <span>15</span> </li>
-                                    <li> <a href="shop.html">Sausage Beef</a> <span>19</span> </li>
-                                </ul>
-                            </li>
-                            <li> <a href="shop.html">Jowl Corned</a> <span>27</span>
-                                <ul>
-                                    <li> <a href="shop.html">Pork Chop</a> <span>15</span> </li>
-                                    <li> <a href="shop.html">Beef Pork Loin</a> <span>12</span> </li>
-                                </ul>
-                            </li>
-                            <li> <a href="#0">Ground Round</a> <span>38</span> </li>
+                            @foreach($parent->categories->all() as $row)
+                                <li> 
+                                    <a href="{{ route('products_view', ['parent_id'=>$row->parent_id,'cat_id'=>$row->id]) }}">{{$row->category_name}}</a> <span>{{ count($row->products->all())}}</span>
+                                </li>
+                            @endforeach
                         </ul>
                     </div>
                 </aside>

@@ -64,10 +64,23 @@
                                     <div class="row">
                                         <div class="col-md-4"><strong>Category:</strong></div>
                                         <div class="col-md-8">
-                                            <select class="form-control form-control-sm" name="category">
+                                            <select class="form-control form-control-sm" name="parent_category" id="parent_category" required="">
                                                 <option value="null">----Select Category----</option>
                                                 @foreach ($category as $cat)
-                                                    <option {{ $cat->id == $data->category ? 'selected' : '' }} value="{{$cat->id}}">{{$cat->category_name}}</option>
+                                                    <option value="{{$cat->id}}" @if($cat->id == $data->parent_category) selected="" @endif>{{$cat->category_name}}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <hr>
+
+                                    <div class="row">
+                                        <div class="col-md-4"><strong>Sub-Category:</strong></div>
+                                        <div class="col-md-8">
+                                            <select class="form-control form-control-sm" name="sub_category" id="sub_category" required="">
+                                                <option >----Select Sub-Category----</option>
+                                                @foreach ($sub_category as $sub_cat)
+                                                    <option value="{{$sub_cat->id}}" @if($sub_cat->id == $data->category) selected="" @endif>{{$sub_cat->category_name}}</option>
                                                 @endforeach
                                             </select>
                                         </div>
@@ -154,6 +167,7 @@
     </div>
     </div>
     <script src="{{asset('backend/js/tinymce/tinymce.min.js')}}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script>
         function showPreview1(event){
             if(event.target.files.length > 0){
@@ -167,6 +181,26 @@
                 preview1.style.display = "block";
             }
         }
+
+
+        $("#parent_category").change(function(){
+            var parent_category = $(this).val();
+            if(parent_category) {
+                $.ajax({
+                    url: "{{  url('/dashboard/get/subcategory/') }}/"+parent_category,
+                    type:"GET",
+                    dataType:"json",
+                    success:function(data) {
+                        var d =$('select[name="sub_category"]').empty();
+                        $.each(data, function(key, value){
+                           $('select[name="sub_category"]').append('<option value="'+ value.id +'">' + value.category_name + '</option>');
+                        });
+                    },
+                });
+            }else {
+                alert('danger');
+            }
+        });
 
         function showPreview2(event){
             if(event.target.files.length > 0){

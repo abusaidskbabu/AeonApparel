@@ -26,6 +26,7 @@ Route::get('/our-factory', 'HomeController@our_factory');
 Route::get('/factory/{id}', 'HomeController@factory_details')->name('factory.details');
 Route::get('/our-showroom', 'HomeController@our_showroom');
 Route::get('/showroom/{id}', 'HomeController@showroom_details')->name('showroom.details');
+Route::get('/lead-time/{id}', 'HomeController@leadtime_details')->name('leadtime.details');
 
 Route::get('/client-info/{id}', 'HomeController@client_info')->name('client-info');
 Route::get('/partner-info/{id}', 'HomeController@partner_info')->name('partner-info');
@@ -44,7 +45,7 @@ Route::get('/services/view/{id}', 'HomeController@services_view')->name('service
 Route::get('/products-list', 'HomeController@products_list')->name('products-list');
 // Route::get('/{page}', 'HomeController@editable_page');
 
-Route::get('/products_view/{div_id}/{cat_id}/{gen_id}', 'HomeController@products_view')->name('products_view');
+Route::get('/products_view/{parent_id}/{cat_id}', 'HomeController@products_view')->name('products_view');
 Route::get('/division/{div_id}/category/{cat_id}', 'HomeController@category')->name('category');
 Route::get('/division/{div_id}', 'HomeController@division')->name('division');
 
@@ -138,6 +139,17 @@ Route::group(['middleware'=>['checkToAccess']], function() {
     Route::get('/dashboard/showroom/worker/delete/{id}/{image}', 'DashboardController@showroom_image_delete')->name('showroom.worker.delete');
     Route::get('/dashboard/showroom/gallery/delete/{id}/{image}', 'DashboardController@showroom_gallery_delete')->name('showroom.gallery.delete');
     // showroom end 
+
+
+    // lead time 
+    Route::get('/dashboard/leadtime', 'DashboardController@leadtime_index');
+    Route::get('/dashboard/leadtime/create', 'DashboardController@leadtime_create');
+    Route::post('/dashboard/leadtime/create', 'DashboardController@leadtime_insert');
+    Route::get('/dashboard/leadtime/view/{id}', 'DashboardController@leadtime_view')->name('leadtime.view');
+    Route::get('/dashboard/leadtime/edit/{id}', 'DashboardController@leadtime_edit')->name('leadtime.edit');
+    Route::post('/dashboard/leadtime/edit/{id}', 'DashboardController@leadtime_update');
+    Route::get('/dashboard/leadtime/delete/{id}', 'DashboardController@leadtime_delete')->name('leadtime.delete');
+    Route::post('/dashboard/leadtime/delete/{id}', 'DashboardController@leadtime_remove');
 
 
     Route::get('/dashboard/our-partners', 'DashboardController@our_partners_index');

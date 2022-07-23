@@ -22,6 +22,7 @@ use App\Service;
 use App\Client;
 use App\Factory;
 use App\Showrooms;
+use App\LeadTime;
 use DB;
 use Illuminate\Mail\Mailable;
 use Illuminate\Support\Facades\Mail;
@@ -296,6 +297,27 @@ class HomeController extends Controller
             ->with('showroom', $showroom);
     }
 
+    public function leadtime_details($id)
+    {
+        $service = DB::table('services')
+            ->where('status', 1)
+            ->get();
+
+        $division = product_division::all();
+        $category = product_category::all();;
+        $gender = product_gender::all();
+
+        $leadtime = LeadTime::findOrFail($id);
+
+        $data = LeadTime::findOrFail($id);
+        return view('frontend.leadtime-details')->with('title', 'Our Lead Time')
+            ->with('division',$division)
+            ->with('category',$category)
+            ->with('gender',$gender)
+            ->with('data', $data)->with('service', $service)
+            ->with('leadtime', $leadtime);
+    }
+
     public function our_values()
     {
         $service = DB::table('services')
@@ -339,26 +361,16 @@ class HomeController extends Controller
             return redirect()->back();
         }
 
-        $service = DB::table('services')
-            ->where('status', 1)
-            ->get();
+        $product = Product::findOrFail($id);
 
-        $division = product_division::all();
-
-        $product = DB::table('products')
-        ->join('product_categories', 'products.category', '=', 'product_categories.id')
-        ->join('product_divisions', 'products.division', '=', 'product_divisions.id')
-        ->join('product_genders', 'products.gender', '=', 'product_genders.id')
-        ->select('products.*', 'product_categories.category_name',
-            'product_categories.id as cat_id', 'product_divisions.division_name',
-            'product_genders.gender_name')
-        ->where('products.id', '=', $id)
-        ->first();
+        $parent = product_category::findOrFail($product->parent_category);
+        $category = product_category::findOrFail($product->category);
+        
 
         return view('frontend.product_view')->with('title', $product->name)
             ->with('data', $product)
-            ->with('service', $service)
-            ->with('division', $division);
+            ->with('parent', $parent)
+            ->with('category', $category);
     }
 
 
@@ -441,24 +453,15 @@ class HomeController extends Controller
 
     }
 
-    public function products_view($div_id, $cat_id, $gen_id)
+    public function products_view($parent_id, $cat_id)
     {
-        $products = DB::table('products')
-            ->join('product_divisions','products.division', '=', 'product_divisions.id')
-            ->join('product_categories','products.category', '=', 'product_categories.id')
-            ->join('product_genders','products.gender', '=', 'product_genders.id')
-            ->select('products.*', 'product_categories.category_name',
-                'product_categories.id as cat_id', 'product_divisions.division_name',
-                'product_genders.gender_name')
-            ->where('products.division', $div_id)
-            ->where('products.category', $cat_id)
-            ->where('products.gender', $gen_id)
-            ->distinct()
-            ->get();
+        $parent = product_category::findOrFail($parent_id);
+        $category = product_category::findOrFail($cat_id);
+        $products = Product::where('parent_category',$parent_id)->where('category',$cat_id)->get();
         // var_dump($products);
         // exit();
 
-        return view('frontend.products_view', compact('products'));
+        return view('frontend.products_view', compact('products','category','parent'));
     }
 
     public function career_store(Request $request)

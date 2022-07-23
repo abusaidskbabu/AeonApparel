@@ -10,9 +10,8 @@
                         Home
                     </a> 
                     </li>
-                    <li><a href="{{ route('division', $data->division) }}">{{ $data->division_name }}</a></li>
-                    <li><a href="{{ route('category', ['div_id' => $data->division, 'cat_id' => $data->category]) }}">{{ $data->category_name }}</a></li>
-                    <li><a href="{{ route('products_view', ['div_id'=>$data->division, 'cat_id'=>$data->category, 'gen_id'=>$data->gender]) }}">{{ $data->gender_name }}</a></li>
+                    <li><a href="">{{ $parent->category_name }}</a></li>
+                    <li><a href="">{{ $category->category_name }}</a></li>
                     <li>{{ $data->name }}</li>
                 </ol>            
             </div>
@@ -26,7 +25,7 @@
                     <div itemscope="" itemtype="http://schema.org/Product" class="product type-product row columns_padding_30 columns_margin_bottom_30">
                         <div class="col-sm-6">
                             <div class="with-corner-label">
-                                <div class="images text-center"> 
+                                <div class="images text-center" style="height: auto;"> 
                                     <a href="{{ asset($data->image_front) }}" itemprop="image" class="woocommerce-main-image zoom prettyPhoto" data-gal="prettyPhoto[product-gallery]">
                                         <img src="{{ asset($data->image_front) }}" class="attachment-shop_single wp-post-image" alt="" title="">
                                     </a>

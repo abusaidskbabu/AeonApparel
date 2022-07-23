@@ -12,6 +12,29 @@
 								<nav class="mainmenu_wrapper">
 									<ul class="mainmenu nav sf-menu">
 										<li class="active"> <a href="{{ route('home')}}">Home</a></li>
+										<li> 
+											<a href="#">Products</a>
+											<ul>
+												<!-- gallery -->
+												@foreach(\App\product_category::whereNull('parent_id')->get() as $row)
+													<li> 
+														<a href="">{{ $row->category_name}}</a>
+														<ul>
+															@php
+                                                				$category =\App\product_category::where('parent_id', $row->id)->get();
+                                            				@endphp
+                                            				@if(!$category->isEmpty())
+                                                				@foreach ($category as $cat)
+																<li> 
+																	<a href="{{ route('products_view', ['parent_id'=>$row->id,'cat_id'=>$cat->id]) }}">{{ $cat->category_name }}</a>
+																</li>
+																@endforeach
+															@endif
+														</ul>
+													</li>
+												@endforeach
+											</ul>
+										</li>
 										<li> <a href="#">About</a>
 											<ul>
 												<li> <a href="{{ url('/about-us')}}">Company Details</a> </li>
@@ -24,11 +47,9 @@
 
 										<li> <a href="#">Lead Time</a>
 											<ul>
-												<li> <a href="{{ url('/about-us')}}">Production Lead Time</a> </li>
-												<li> <a href="{{ url('/our-partner')}}">Sampling Time</a> </li>
-												<li> <a href="{{ url('/our-clients')}}">Sampling Policy</a> </li>
-												<li> <a href="{{ url('/our-factory') }}">Business Terms</a> </li>
-												<li> <a href="{{ url('/our-showroom') }}">Payment Procedure</a> </li>
+												@foreach(\App\LeadTime::all() as $row)
+													<li> <a href="{{ route('leadtime.details', $row->id)}}">{{$row->title}}</a> </li>
+												@endforeach
 											</ul>
 										</li>
 
@@ -39,51 +60,7 @@
 												@endforeach
 											</ul>
 										</li>
-										<li> <a href="#">Products</a>
-											<ul>
-												<!-- gallery -->
-												@foreach(App\product_division::all() as $row)
-													<li> 
-														<a href="">{{ $row->division_name}}</a>
-														<ul>
-															@php
-                                                				$category = DB::table('products')
-                                                        		->join('product_categories','products.category', '=', 'product_categories.id')
-                                                        		->select('product_categories.category_name', 'product_categories.id as cat_id')
-                                                        		->where('products.division', $row->id)
-                                                        		->distinct()
-                                                        		->get();
-                                            				@endphp
-                                            				@if(!$category->isEmpty())
-
-                                                				@foreach ($category as $cat)
-																<li> 
-																	<a href="">{{ $cat->category_name }}</a>
-																	<ul>
-																		@php
-			                                                                $gender = DB::table('products')
-                                                                            ->join('product_genders','products.gender', '=', 'product_genders.id')
-                                                                            ->select('product_genders.gender_name', 'products.gender as gen_id')
-                                                                            ->where('products.category', $cat->cat_id)
-                                                                            ->distinct()
-                                                                            ->get();
-			                                                            @endphp
-			                                                            @if(!$gender->isEmpty())
-			                                                            	@foreach($gender as $gen)
-																				<li> 
-																					<a href="{{ route('products_view', ['div_id'=>$row->id, 'cat_id'=>$cat->cat_id, 'gen_id'=>$gen->gen_id]) }}">{{ $gen->gender_name }}</a> 
-																				</li>
-																			@endforeach
-																		@endif
-																	</ul>
-																</li>
-																@endforeach
-															@endif
-														</ul>
-													</li>
-												@endforeach
-											</ul>
-										</li>
+										
 										<!-- eof pages -->
 										{{-- <li> 
 											<a href="{{ url('/ourteam') }}">Team</a>

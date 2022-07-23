@@ -17,6 +17,7 @@ use App\Service;
 use App\Client;
 use App\Factory;
 use App\Showrooms;
+use App\LeadTime;
 use App\PageCms;
 use App\product_category;
 use App\product_division;
@@ -883,6 +884,69 @@ class DashboardController extends Controller
 
     // showroom end 
 
+    // lead time start 
+    public function leadtime_index()
+    {
+        $leadtime = LeadTime::all();
+        return view('backend.leadtime.index')->with('title', 'Our Lead Time')->with('data', $leadtime);
+    }
+    public function leadtime_create()
+    {
+        return view('backend.leadtime.create')->with('title', 'Create Lead Time');
+    }
+    public function leadtime_insert(Request $request)
+    {
+        //return $request;
+        $this->validate($request,
+        [
+            'title' => 'required',
+
+        ],
+            $messages = [
+                'required' => 'The :attribute field is required.',
+            ]
+        );
+       
+        $leadtime = new LeadTime();
+        $leadtime->title = $request->title;
+        $leadtime->details= $request->details;
+        $leadtime->save();
+
+        return redirect('/dashboard/leadtime')->with('success', 'Lead Time Has Been Created !');
+    }
+    public function leadtime_view($id)
+    {
+        $leadtime = LeadTime::findOrFail($id);
+        return view('backend.leadtime.view')->with('title', 'View Lead Time')->with('data', $leadtime);
+    }
+    public function leadtime_edit($id)
+    {
+        $data = LeadTime::findOrFail($id);
+        return view('backend.leadtime.edit')->with('title', 'Edit Lead Time')->with('data', $data);
+    }
+    public function leadtime_update(Request $request, $id)
+    {
+        $data = LeadTime::findOrFail($id);
+        $data->title = $request->title;
+        $data->details= $request->details;
+        $data->save();
+        
+        return redirect('/dashboard/leadtime')->with('success', 'Lead Time Has Been Edited !');
+    }
+    public function leadtime_delete($id)
+    {
+        $data = LeadTime::findOrFail($id);
+        return view('backend.leadtime.delete')->with('title', 'Delete Lead Time')->with('data', $data);
+    }
+    public function leadtime_remove($id)
+    {
+        $data = LeadTime::findOrFail($id);
+        $data->delete();
+        return redirect('/dashboard/leadtime')->with('success', 'Lead Time Has Been Deleted !');
+    }
+
+
+
     public function our_partners_index()
     {
         $partner = Partner::all();
@@ -1473,7 +1537,8 @@ class DashboardController extends Controller
             return redirect()->back();
         }
 
-        $category = product_category::all();
+        $category = product_category::whereNull('parent_id')->get();
+        $sub_category = product_category::whereNotNull('parent_id')->get();
         $division = product_division::all();
         $gender = product_gender::all();
 
@@ -1483,6 +1548,7 @@ class DashboardController extends Controller
             ->with('data', $product)
             ->with('division', $division)
             ->with('category', $category)
+            ->with('sub_category', $sub_category)
             ->with('gender', $gender);
     }
     
@@ -1492,9 +1558,10 @@ class DashboardController extends Controller
         $this->validate($request,
         [
             'name' => 'required',
-            'division' => 'required|not_in:null',
-            'category' => 'required|not_in:null',
-            'gender' => 'required|not_in:null',
+            // 'division' => 'required|not_in:null',
+            'parent_category' => 'required|not_in:null',
+            'sub_category' => 'required|not_in:null',
+            // 'gender' => 'required|not_in:null',
             'image_front' => 'max:1096',
             'image_back' => 'max:1096',
             'status' => 'required|not_in:null'
@@ -1509,9 +1576,10 @@ class DashboardController extends Controller
 
 
             $data->name = $request->name;
-            $data->division = $request->division;
-            $data->category = $request->category;
-            $data->gender = $request->gender;
+            // $data->division = $request->division;
+            $data->parent_category = $request->parent_category;
+            $data->category = $request->sub_category;
+            // $data->gender = $request->gender;
             $data->color = $request->color;
             $data->size = $request->size;
             $data->description = $request->desc;
