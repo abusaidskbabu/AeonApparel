@@ -16,7 +16,7 @@
     <meta name="twitter:description" content="MM Clothing company established by some energetic, enthusiasm group of people who has Textile education background and more than 15 years working experience in factories as well as buying and liaison office.">
     <meta name="twitter:image" content="http://mmclothingbd.com/frontend/img/slides/slider 1.jpg">
     <meta name="twitter:card" content="summary_large_image">
-    <title>{{$title}} | ELEGRAND</title>
+    <title>{{$title}} | Aeon Apparel</title>
     <link rel="shortcut icon" href="{{ asset('frontend/img/mmlogo.png')}}" type="image/png">
 
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900&display=swap" rel="stylesheet">

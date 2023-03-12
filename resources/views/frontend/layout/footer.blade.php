@@ -1,9 +1,64 @@
-<footer class="page_footer ls  columns_margin_bottom_30 pt-4" style="background-color: #191818;">
-	<div class="container">
+<footer class="page_footer ls  columns_margin_bottom_30 pt-4" style="background-color: #fffbfb;">
+	<div class="container columns_padding_80">
 		<div class="row">
 			<div class="col-xs-12 col-md-4 text-center text-md-left">
 				<div class="widget widget_text">
 					<div class="logo"> <img src="{{asset($wss->logo ?? '')}}" style="height: 80px;" alt=""> </div>
+					<p style="line-height: 1.4;" class="text-justify">Incorporated in 2015, AEON APPAREL is a well-established globally reputed garments apparel buying, sourcing, technology and management services company in Dhaka, Bangladesh. It’s experience and expertise providing comprehensive capabilities in the apparel industry, AEON APPAREL collaborates with clients and manufacturers to help them attain high-performance businesses.</p>
+				</div>
+			</div>
+			<div class="col-xs-12 col-sm-6 col-md-3 text-center text-md-left pt-5">
+				<div class="widget widget_text">
+					<h3 class="widget-title">Services</h3>
+					<ul class="list-unstyled greylinks">
+						@foreach(App\Service::where('status',1)->get() as $row)
+						<li>
+						 	<div class="media small-media">
+								<div class="media-left"> <i class="{{ $row->icon_2 }}"></i> </div>
+								<a href="{{route('service.view', $row->id)}}" class=" small"> {{ $row->title }}</a>
+							</div>
+						</li>
+						@endforeach
+					</ul>
+				</div>
+			</div>
+			<div class="col-xs-12 col-sm-6 col-md-2 text-center text-md-left pt-5">
+				<div class="widget widget_text">
+					<h3 class="widget-title">Quick Links</h3>
+					<ul class="list-unstyled greylinks">
+						
+						<li>
+						 	<div class="media small-media">
+								<a href="{{ url('/about-us')}}" class=" small text-uppercase">Company Details</a>
+							</div>
+						</li>
+						<li>
+						 	<div class="media small-media">
+								<a href="{{ url('/our-partner')}}" class=" small text-uppercase">Our Concerns</a>
+							</div>
+						</li>
+						<li>
+						 	<div class="media small-media">
+								<a href="{{ url('/our-clients')}}" class=" small text-uppercase">Our Clients</a>
+							</div>
+						</li>
+						<li>
+						 	<div class="media small-media">
+								<a href="{{ url('/our-factory') }}" class=" small text-uppercase">Our Factory</a>
+							</div>
+						</li>
+						<li>
+						 	<div class="media small-media">
+								<a href="{{ url('/our-showroom') }}" class=" small text-uppercase">Our Showroom</a>
+							</div>
+						</li>
+					</ul>
+				</div>
+			</div>
+			
+			<div class="col-xs-12 col-sm-6 col-md-3 text-center text-md-left pt-5">
+				<div class="widget widget_text">
+					<h3 class="widget-title">Contact</h3>
 					<ul class="list-unstyled greylinks">
 						<li>
 							<div class="media small-media">
@@ -30,36 +85,6 @@
 								<div class="media-body"> {{ $wss->address ?? '' }} </div>
 							</div>
 						</li>
-					</ul>
-				</div>
-			</div>
-			<div class="col-xs-12 col-sm-6 col-md-4 text-center text-md-left pt-5">
-				<div class="widget widget_text">
-					<h3 class="widget-title">Service</h3>
-					<ul class="list-unstyled greylinks">
-						@foreach(App\Service::where('status',1)->limit(5)->get() as $row)
-						<li>
-						 	<div class="media small-media">
-								<div class="media-left"> <i class="{{ $row->icon_2 }}"></i> </div>
-								<a href="{{route('service.view', $row->id)}}" class=" small"> {{ $row->title }}</a>
-							</div>
-						</li>
-						@endforeach
-					</ul>
-				</div>
-			</div>
-			<div class="col-xs-12 col-sm-6 col-md-4 text-center text-md-left pt-5">
-				<div class="widget widget_text">
-					<h3 class="widget-title"></h3>
-					<ul class="list-unstyled greylinks pt-3">
-						@foreach(App\Service::where('status',1)->skip(5)->take(5)->get() as $row)
-						<li>
-						 	<div class="media small-media">
-								<div class="media-left"> <i class="{{ $row->icon_2 }}"></i> </div>
-								<a href="{{route('service.view', $row->id)}}" class=" small"> {{ $row->title }}</a>
-							</div>
-						</li>
-						@endforeach
 					</ul>
 				</div>
 			</div>

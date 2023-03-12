@@ -52,7 +52,7 @@
 														<div class="item-media-wrap">
 															<div class="item-media" style="height: auto;"> 
 																<a href="{{asset('backend/showrooms/'.$value)}}">
-								                            		<img src="{{asset('backend/showrooms/'.$value)}}" height="100%" width="100%" class="mb-1">
+								                            		<img src="{{asset('backend/showrooms/'.$value)}}" height="200px" width="200px" class="mb-1">
 							                        			</a>
 															</div>
 														</div>

@@ -1,12 +1,12 @@
 <!-- Sidebar -->
-<ul class="navbar-nav sidebar sidebar-dark accordion" id="accordionSidebar" style="background-color: #B17F31">
+<ul class="navbar-nav sidebar sidebar-dark accordion" id="accordionSidebar" style="background-color: #000000">
 
     <!-- Sidebar - Brand -->
-    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/dashboard" style="background-color: black;">
+    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/dashboard" style="background-color: #f8f9fc;">
       <div class="sidebar-brand-icon">
         <img src="{{asset($wss->logo ?? '')}}" height="60px" alt="">
       </div>
-      <div class="sidebar-brand-text mx-3">ELEGRAND</div>
+      <div class="sidebar-brand-text mx-3"></div>
     </a>
 
     <!-- Divider -->

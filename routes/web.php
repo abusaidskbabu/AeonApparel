@@ -50,6 +50,7 @@ Route::get('/division/{div_id}/category/{cat_id}', 'HomeController@category')->n
 Route::get('/division/{div_id}', 'HomeController@division')->name('division');
 
 
+Route::get('/meeting/request', 'HomeController@meetingRequest');
 
 //Backend Routes
 Route::group(['middleware'=>['checkToAccess']], function() {

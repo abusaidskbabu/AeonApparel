@@ -9,7 +9,7 @@
 				@forelse($sliders as $slider)
 				<li>
 					<div class="slide-image-wrap"> 
-						<img src="{{ asset($slider->image) }}" width="100%" height="100%" alt="" /> 
+						<img src="{{ asset($slider->image) }}" width="" height="" alt="" /> 
 					</div>
 
 					<div class="container">
@@ -75,7 +75,7 @@
 					<h2 class="section_header small" style="color: #fc0000;">Our Catalog</h2>
 					<p class="small-text grey" >popular items</p>
 					<div class="toppadding_5"></div>
-					<p style="color: #fc0000;">Elegrandbd supplies all kind of garment/apparels following the buyer’s requirement. Our products include:</p>
+					<p style="color: #fc0000;">Aeon Apparel supplies all kind of garment/apparels following the buyer’s requirement. Our products include:</p>
 					<div class="col-md-12">
 						<div class="owl-carousel owl-theme" id="popular-product">
 							@foreach($item_sliders as $row)
@@ -288,7 +288,7 @@
 
 				<div class="col-xs-12 col-md-8 col-md-pull-4">
 					<h2 class="section_header small">Custom Tailoring</h2>
-					<p class="small-text grey">for cheapest price</p>
+					<p class="small-text grey">Most competitive price</p>
 					<div class="toppadding_5"></div>
 					<form class="contact-form row columns_padding_10" method="post" action="{{ route('contact') }}">
 						@csrf

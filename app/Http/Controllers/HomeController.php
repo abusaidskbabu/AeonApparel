@@ -558,6 +558,23 @@ class HomeController extends Controller
         return view('frontend.blogs_read', compact('data','alls'));
     }
 
+    public function meetingRequest()
+    {
+        $service = DB::table('services')
+            ->where('status', 1)
+            ->get();
+
+        $division = product_division::all();
+        $category = product_category::all();;
+        $gender = product_gender::all();
+
+        return view('frontend.meeting-request')->with('title', 'Contact Us')
+            ->with('division',$division)
+            ->with('category',$category)
+            ->with('gender',$gender)
+            ->with('service', $service);
+    }
+
 }
 
 
